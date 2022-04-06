@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟vue3响应式</title>
+</head>
+<body>
+    <script>
+        let person = {
+            name: '张三',
+            age: 18
+        }
+
+        //框架是用Reflect反射对象
+        const p = new Proxy(person,{
+            //有人读取p数据时调用
+            get(target,propName){
+                console.log(`有人读取了p的${propName}属性`)
+                // return target[propName]
+                return Reflect.get(target,propName)
+            },
+            //有人修改，新增p属性时调用
+            set(target,propName,value){
+                console.log(`有人修改了p的${propName}属性，我要去更新界面了`)
+                // target[propName] = value
+                Reflect.set(target,propName,value)
+            },
+            //有人删除p属性时调用
+            deleteProperty(target,propName){
+                console.log(`有人删除了p的${propName}属性，我要去更新界面了`)
+                // return delete target[propName]
+                return Reflect.deleteProperty(target,propName)
+            }
+        })
+
+    </script>
+</body>
+</html>
